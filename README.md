@@ -7,16 +7,22 @@ The start code is from theano tutorial, but my implementation goes beyond it's s
 
 
 ## Code Structure
+```
 |-layers
     |-hiddenLayer.py    # hidden layer
     |-convPoolLayer.py  # convolutional + max pooling layer
     |-logisticRegLayer.py  # usually used for the output
+```
 
+```
 |-update
     |-activationFunctions.py  # non-linear functions used in NN
     |-updateMethods.py        # implementation of update methods
+```
 
+```
 |-loader.py   # load data
 |-mainLogisticRegression.py  # classify by logistic regression
 |-mainMLP.py  # classify by MLP
 |-mainCNN.py  # classify by CNN - classic LeNet architecture  
+```
