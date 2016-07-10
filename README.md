@@ -1,4 +1,4 @@
-# PyML
+# Hand Written Recognition
 This repository contains my test of classic handwritten recognition problem on MNIST. 
 
 The dataset contains the MNIST dataset, which is from [http://www.iro.umontreal.ca/~lisa/deep/data/mnist/mnist.pkl.gz](http://www.iro.umontreal.ca/~lisa/deep/data/mnist/mnist.pkl.gz). 
