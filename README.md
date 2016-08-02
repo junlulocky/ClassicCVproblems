@@ -7,6 +7,7 @@ The start code is from theano tutorial, but my implementation goes beyond it's s
 
 
 ## Code Structure
+/MNIST/theano
 ```
 |-layers
     |-hiddenLayer.py    # hidden layer
@@ -25,4 +26,11 @@ The start code is from theano tutorial, but my implementation goes beyond it's s
 |-mainLogisticRegression.py  # classify by logistic regression
 |-mainMLP.py  # classify by MLP
 |-mainCNN.py  # classify by CNN - classic LeNet architecture  
+```
+
+/MNIST
+The code relies on an unpublished library, so it cannot run. It is just a NN or CNN structure.
+```
+|-train_mnist_mlp.py   # use MLP to solve MNIST dataset
+|-train_mnist_lenet.py # use lenet structure to solve MNIST dataset
 ```
