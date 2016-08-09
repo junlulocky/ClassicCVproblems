@@ -3,10 +3,42 @@ import numpy as np
 import theano
 import theano.tensor as T
 
+# class HiddenLayer(object):
+#     def __init__(self, rng, input, n_in, n_out,
+#                  activation, W=None, b=None,
+#                  use_bias=False):
+#
+#         self.input = input
+#         self.activation = activation
+#
+#         if W is None:
+#             W_values = np.asarray(0.01 * rng.standard_normal(
+#                 size=(n_in, n_out)), dtype=theano.config.floatX)
+#             W = theano.shared(value=W_values, name='W')
+#
+#         if b is None:
+#             b_values = np.zeros((n_out,), dtype=theano.config.floatX)
+#             b = theano.shared(value=b_values, name='b')
+#
+#         self.W = W
+#         self.b = b
+#
+#         if use_bias:
+#             lin_output = T.dot(input, self.W) + self.b
+#         else:
+#             lin_output = T.dot(input, self.W)
+#
+#         self.output = (lin_output if activation is None else activation(lin_output))
+#
+#         # parameters of the model
+#         if use_bias:
+#             self.params = [self.W, self.b]
+#         else:
+#             self.params = [self.W]
 
 class HiddenLayer(object):
     def __init__(self, rng, input, n_in, n_out, W=None, b=None,
-                 activation=T.tanh):
+                 activation=T.tanh, use_bias=True):
         """
         Typical hidden layer of a MLP: units are fully-connected and have
         sigmoidal activation function. Weight matrix W is of shape (n_in,n_out)
@@ -67,19 +99,45 @@ class HiddenLayer(object):
         self.W = W
         self.b = b
 
+        if use_bias:
+            lin_output = T.dot(input, self.W) + self.b
+        else:
+            lin_output = T.dot(input, self.W)
+
+        self.output = (lin_output if activation is None else activation(lin_output))
+
         # parameters of the model
-        self.params = [self.W, self.b]
+        if use_bias:
+            self.params = [self.W, self.b]
+        else:
+            self.params = [self.W]
 
-        # hidden layer processing
-        lin_output = T.dot(input, self.W) + self.b
-        self.output = (
-            lin_output if activation is None
-            else activation(lin_output)
-        )
 
-def dropout(rng,value,p):
-    '''
-    :dropout function
+
+# def dropout(rng,value,p):
+#     '''
+#     :dropout function
+#     :type rng: np.random.RandomState
+#     :param rng: random seed
+#
+#     :type value: T.tensor4
+#     :param value: input value
+#
+#     :type p: float
+#     :param p: dropout rate
+#     '''
+#     srng=T.shared_randomstreams.RandomStreams(rng.randint(254860))
+#     mask=srng.binomial(n=1,p=1-p,size=value.shape)
+#     return value*T.cast(mask,theano.config.floatX)
+
+# class DropoutHiddenLayer(HiddenLayer):
+#     def __init__(self,rng, input, n_in, n_out, W=None, b=None, activation=T.tanh, dropoutRate=0.1):
+#         HiddenLayer.__init__(self,rng,input,n_in,n_out,activation)
+#         self.dropoutRate=dropoutRate
+#         self.output=dropout(rng,self.output,dropoutRate)
+
+def _output_from_dropout(rng, layer, p):
+    """
     :type rng: np.random.RandomState
     :param rng: random seed
 
@@ -89,12 +147,21 @@ def dropout(rng,value,p):
     :type p: float
     :param p: dropout rate
     '''
-    srng=T.shared_randomstreams.RandomStreams(rng.randint(254860))
-    mask=srng.binomial(n=1,p=1-p,size=value.shape)
-    return value*T.cast(mask,theano.config.floatX)
+    """
+    srng = T.shared_randomstreams.RandomStreams(
+            rng.randint(999999))
+    # p=1-p because 1's indicate keep and p is prob of dropping
+    mask = srng.binomial(n=1, p=1-p, size=layer.shape)
+    # The cast is important because
+    # int * float32 = float64 which pulls things off the gpu
+    output = layer * T.cast(mask, theano.config.floatX)
+    return output
 
 class DropoutHiddenLayer(HiddenLayer):
-    def __init__(self,rng, input, n_in, n_out, W=None, b=None, activation=T.tanh, dropoutRate=0.1):
-        HiddenLayer.__init__(self,rng,input,n_in,n_out,activation)
-        self.dropoutRate=dropoutRate
-        self.output=dropout(rng,self.output,dropoutRate)
+    def __init__(self, rng, input, n_in, n_out,
+                 activation, dropout_rate, use_bias, W=None, b=None):
+        super(DropoutHiddenLayer, self).__init__(
+                rng=rng, input=input, n_in=n_in, n_out=n_out, W=W, b=b,
+                activation=activation, use_bias=use_bias)
+
+        self.output = _output_from_dropout(rng, self.output, p=dropout_rate)
