@@ -34,3 +34,9 @@ The code relies on an unpublished library, so it cannot run. It is just a NN or 
 |-train_mnist_mlp.py   # use MLP to solve MNIST dataset
 |-train_mnist_lenet.py # use lenet structure to solve MNIST dataset
 ```
+
+/CIFAR10
+The code uses torch, 
+```
+|-cifar10_lenet.lua   # use LeNet structure to solve CIFAR10 dataset
+```
