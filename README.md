@@ -36,6 +36,10 @@ The code relies on an unpublished library, so it cannot run. It is just a NN or 
 ```
 
 /CIFAR10
+links for CIFAR10:
+- [From lasagne](https://github.com/Lasagne/Recipes/blob/master/papers/deep_residual_learning/Deep_Residual_Learning_CIFAR-10.py)
+- [From binary net](https://github.com/MatthieuCourbariaux/BinaryConnect/blob/lasagne/cifar10.py)
+
 The code uses torch, 
 ```
 |-cifar10_lenet.lua   # use LeNet structure to solve CIFAR10 dataset
