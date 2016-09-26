@@ -29,6 +29,7 @@ The start code is from theano tutorial, but my implementation goes beyond it's s
 ```
 
 /MNIST
+
 The code relies on an unpublished library, so it cannot run. It is just a NN or CNN structure.
 ```
 |-train_mnist_mlp.py   # use MLP to solve MNIST dataset
@@ -36,6 +37,7 @@ The code relies on an unpublished library, so it cannot run. It is just a NN or 
 ```
 
 /CIFAR10
+
 links for CIFAR10:
 - [From lasagne](https://github.com/Lasagne/Recipes/blob/master/papers/deep_residual_learning/Deep_Residual_Learning_CIFAR-10.py)
 - [From binary net](https://github.com/MatthieuCourbariaux/BinaryConnect/blob/lasagne/cifar10.py)
@@ -49,6 +51,7 @@ The code uses torch,
 ```
 
 /SVHN
+
 The code relies on an unpublished library, so it cannot run. It is just a NN or CNN structure.
 ```
 |-train_svhn_fpnet.py # Floating point structure, less than 3.3% error rate.
