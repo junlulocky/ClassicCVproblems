@@ -39,8 +39,17 @@ The code relies on an unpublished library, so it cannot run. It is just a NN or 
 links for CIFAR10:
 - [From lasagne](https://github.com/Lasagne/Recipes/blob/master/papers/deep_residual_learning/Deep_Residual_Learning_CIFAR-10.py)
 - [From binary net](https://github.com/MatthieuCourbariaux/BinaryConnect/blob/lasagne/cifar10.py)
+```
+train_cifar10_fpwider.py  # Floating Point structure, with flipping, less than 15% error rate
+```
 
 The code uses torch, 
 ```
 |-cifar10_lenet.lua   # use LeNet structure to solve CIFAR10 dataset
+```
+
+/SVHN
+The code relies on an unpublished library, so it cannot run. It is just a NN or CNN structure.
+```
+|-train_svhn_fpnet.py # Floating point structure, less than 3.3% error rate.
 ```
